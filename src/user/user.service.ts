@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { findone_user_request_dto } from './dto/findone.user.request.dto';
+import { delete_user_request_dto } from './dto/delete.user.request.dto';
 
 @Injectable()
 export class UserService {
@@ -38,7 +39,13 @@ export class UserService {
   }
 
   // 유저 삭제
-  async remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(body: delete_user_request_dto): Promise<void> {
+    const user = await this.userRepository.findOne({ 
+      where: { id: body.id } 
+    });
+    if (!user) {
+      throw new NotFoundException(`ID가 ${body}인 유저를 찾을 수 없습니다.`);
+    }
+    await this.userRepository.delete(body);
   }
 }
