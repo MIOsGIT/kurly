@@ -1,5 +1,6 @@
 import { User } from "src/user/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { create_product_request_dto } from "../dto/create.product.request.dto";
 
 @Entity()
 export class Product {
@@ -28,4 +29,10 @@ export class Product {
     @ManyToOne(() => User, { onDelete: 'CASCADE' })
     user: User;
 
+    setter(body: create_product_request_dto){
+        this.name = body.name;
+        this.des = body.des;
+        this.stock = body.stock;
+        this.price = body.price;
+    }
 }

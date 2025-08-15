@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { create_product_request_dto } from './dto/create.product.request.dto';
 @Controller('product')
@@ -7,18 +7,18 @@ export class ProductController {
 
   // 상품 생성
   @Post()
-  create(@Body() body: create_product_request_dto) {
-    return this.productService.create(body);
+  create(@Body() body: create_product_request_dto, @Headers() id: string) {
+    return this.productService.create(body, id);
   }
 
   // 상품 조회 (전체)
-  @Get()
+  @Get('all')
   findAll() {
     return this.productService.findAll();
   }
 
   // 상품 상세 조회 (상품 number)
-  @Get(':id')
+  @Get('number')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
