@@ -25,12 +25,6 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
-  // 유저 수정 (유저 id)
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
   // 유저 삭제
   @Delete(':id')
   remove(@Param('id') id: string) {

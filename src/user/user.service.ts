@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { create_user_request_dto } from './dto/create.user.request.dto';
 import { UpdateUserDto } from './dto/update.user.request.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { findone_user_request_dto } from './dto/findone.user.request.dto';
 
 @Injectable()
 export class UserService {
@@ -23,17 +24,18 @@ export class UserService {
 
   // 유저 조회 (전체)
   async findAll() {
-    return `This action returns all user`;
+    return this.userRepository.find();
   }
 
   // 유저 상세 조회 (유저 id)
-  async findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  // 유저 수정
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOne(body: findone_user_request_dto) {
+    const user = await this.userRepository.findOne({ 
+      where: { id: body.id } 
+    });
+    if (!user) {
+      throw new NotFoundException(`ID가 ${body.id}인 유저를 찾을 수 없습니다.`);
+    }
+    return user;
   }
 
   // 유저 삭제
