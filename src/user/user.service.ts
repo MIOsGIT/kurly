@@ -12,6 +12,7 @@ export class UserService {
     private readonly userRepository: Repository<User>
   ){}
 
+  // 유저 생성
   async sign_up(createUserDto: CreateUserDto): Promise<void> {
     const exist = await this.userRepository.findOne({ 
       where: { id : createUserDto.id } });
@@ -20,18 +21,22 @@ export class UserService {
     await this.userRepository.save(user);
   }
 
+  // 유저 조회 (전체)
   async findAll() {
     return `This action returns all user`;
   }
 
+  // 유저 상세 조회 (유저 id)
   async findOne(id: number) {
     return `This action returns a #${id} user`;
   }
 
+  // 유저 수정
   async update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
+  // 유저 삭제
   async remove(id: number) {
     return `This action removes a #${id} user`;
   }
