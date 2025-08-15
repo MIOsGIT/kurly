@@ -16,7 +16,7 @@ export class UserService {
   ){}
 
   // 유저 생성
-  async sign_up(body: create_user_request_dto): Promise<void> {
+  async create(body: create_user_request_dto): Promise<void> {
     const exist = await this.userRepository.findOne({ 
       where: { id : body.id } });
     if(exist) throw new BadRequestException('이미 존재하는 ID 입니다.')

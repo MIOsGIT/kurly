@@ -12,7 +12,7 @@ export class UserController {
   // 유저 생성
   @Post()
   async sign_up(@Body() body: create_user_request_dto) {
-    return this.userService.sign_up(body);
+    return this.userService.create(body);
   }
 
   // 유저 조회 (전체)

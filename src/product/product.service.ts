@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create.product.request.dto';
-import { UpdateProductDto } from './dto/update.product.request.dto';
+import { create_product_request_dto } from './dto/create.product.request.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>
+  ){}
+  
+  // 상품 생성
+  async create(body: create_product_request_dto) {
     return 'This action adds a new product';
   }
 
-  findAll() {
+  // 상품 조회 (전체)
+  async findAll() {
     return `This action returns all product`;
   }
 
-  findOne(id: number) {
+  // 상품 상세 조회 (유저 id)
+  async findOne(id: number) {
     return `This action returns a #${id} product`;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
+  // 상품 삭제
+  async remove(id: number) {
     return `This action removes a #${id} product`;
   }
 }
