@@ -1,5 +1,7 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class Product {
     @PrimaryGeneratedColumn()
     number: number;
@@ -15,5 +17,15 @@ export class Product {
 
     @Column()
     price: number;
+
+    @Column({ default: true })
+    isActive: boolean;
+
+    constructor(){
+        this.isActive = true;
+    }
+
+    @ManyToOne(() => User, { onDelete: 'CASCADE' })
+    user: User;
 
 }

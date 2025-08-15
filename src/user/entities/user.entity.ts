@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Product } from "src/product/entities/product.entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 @Entity()
 export class User {
     @PrimaryColumn()
@@ -15,4 +16,7 @@ export class User {
 
     @Column()
     isSeller: boolean;
+
+    @OneToMany(() => Product, (product) => product.user)
+    product: Product[];
 }
