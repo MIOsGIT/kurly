@@ -45,9 +45,9 @@ export class User {
         return {
             id: this.id,
             name: this.name,
-            isActive: this.isActive,
-            createdAt: this.createdAt,
             isSeller: this.isSeller,
+            createdAt: this.createdAt,
+            isActive: this.isActive,
             products: this.product?.map((p) => ({
                 number: p.number,
                 name: p.name,

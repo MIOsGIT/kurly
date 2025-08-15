@@ -25,7 +25,7 @@ export class ProductController {
 
   // 상품 삭제
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
-  }
+  async remove(@Body() body: delete_user_request_dto) {
+      return this.productService.remove(body);
+    }
 }
