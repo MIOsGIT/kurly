@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create.user.request.dto';
+import { create_user_request_dto } from './dto/create.user.request.dto';
 import { UpdateUserDto } from './dto/update.user.request.dto';
 
 @Controller('user')
@@ -9,8 +9,8 @@ export class UserController {
 
   // 유저 생성
   @Post()
-  sign_up(@Body() createUserDto: CreateUserDto) {
-    return this.userService.sign_up(createUserDto);
+  sign_up(@Body() body: create_user_request_dto) {
+    return this.userService.sign_up(body);
   }
 
   // 유저 조회 (전체)

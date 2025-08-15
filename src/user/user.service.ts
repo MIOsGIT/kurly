@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create.user.request.dto';
+import { create_user_request_dto } from './dto/create.user.request.dto';
 import { UpdateUserDto } from './dto/update.user.request.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -13,11 +13,11 @@ export class UserService {
   ){}
 
   // 유저 생성
-  async sign_up(createUserDto: CreateUserDto): Promise<void> {
+  async sign_up(body: create_user_request_dto): Promise<void> {
     const exist = await this.userRepository.findOne({ 
-      where: { id : createUserDto.id } });
+      where: { id : body.id } });
     if(exist) throw new BadRequestException('이미 존재하는 ID 입니다.')
-    const user = this.userRepository.create(createUserDto);
+    const user = this.userRepository.create(body);
     await this.userRepository.save(user);
   }
 
