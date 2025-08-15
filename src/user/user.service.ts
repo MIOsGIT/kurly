@@ -22,37 +22,28 @@ export class UserService {
     if(exist) throw new BadRequestException('이미 존재하는 ID 입니다.')
     const user = this.userRepository.create(body);
     await this.userRepository.save(user);
+    
   }
 
   // 유저 조회 (전체)
   async findAll(): Promise<find_all_user_response_dto[]> {
     const users = await this.userRepository.find();
     return users.map(user => {
-      const find_all_user_response = new find_all_user_response_dto();
-      
-      find_all_user_response.id = user.id;
-      find_all_user_response.name = user.name;
-      find_all_user_response.isSeller = user.isSeller;
-      
+      const find_all_user_response = user.toFindOneResponse();
       return find_all_user_response;
     });
   }
 
   // 유저 상세 조회 (유저 id)
   async findOne(body: find_one_user_request_dto) {
-    const user = await this.userRepository.findOne({ 
-      where: { id: body.id } 
+    const user = await this.userRepository.findOne({
+      where: { id: body.id },
+      relations: ['product'],
     });
     if (!user) {
-      throw new NotFoundException(`ID가 ${body.id}인 유저를 찾을 수 없습니다.`);
+      throw new NotFoundException('해당 유저를 찾을 수 없습니다.');
     }
-    const find_one_user_response = new find_one_user_response_dto();
-
-    find_one_user_response.id = user.id;
-    find_one_user_response.name = user.name;
-    find_one_user_response.isSeller = user.isSeller;
-
-    return find_one_user_response;
+    return user.toFindOneResponse();
   }
 
   // 유저 삭제
