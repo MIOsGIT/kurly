@@ -3,8 +3,10 @@ import { create_user_request_dto } from './dto/create.user.request.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { findone_user_request_dto } from './dto/findone.user.request.dto';
+import { find_one_user_request_dto } from './dto/find-one.user.request.dto';
 import { delete_user_request_dto } from './dto/delete.user.request.dto';
+import { find_all_user_response_dto } from './dto/find-all.user.response.dto';
+import { find_one_user_response_dto } from './dto/find-one.user.response.dto';
 
 @Injectable()
 export class UserService {
@@ -23,19 +25,34 @@ export class UserService {
   }
 
   // 유저 조회 (전체)
-  async findAll() {
-    return this.userRepository.find();
+  async findAll(): Promise<find_all_user_response_dto[]> {
+    const users = await this.userRepository.find();
+    return users.map(user => {
+      const find_all_user_response = new find_all_user_response_dto();
+      
+      find_all_user_response.id = user.id;
+      find_all_user_response.name = user.name;
+      find_all_user_response.isSeller = user.isSeller;
+      
+      return find_all_user_response;
+    });
   }
 
   // 유저 상세 조회 (유저 id)
-  async findOne(body: findone_user_request_dto) {
+  async findOne(body: find_one_user_request_dto) {
     const user = await this.userRepository.findOne({ 
       where: { id: body.id } 
     });
     if (!user) {
       throw new NotFoundException(`ID가 ${body.id}인 유저를 찾을 수 없습니다.`);
     }
-    return user;
+    const find_one_user_response = new find_one_user_response_dto();
+
+    find_one_user_response.id = user.id;
+    find_one_user_response.name = user.name;
+    find_one_user_response.isSeller = user.isSeller;
+
+    return find_one_user_response;
   }
 
   // 유저 삭제

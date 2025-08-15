@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
 import { create_user_request_dto } from './dto/create.user.request.dto';
-import { findone_user_request_dto } from './dto/findone.user.request.dto';
-import { findAll_user_response_dto } from './dto/findAll.user.response.dto';
+import { find_one_user_request_dto } from './dto/find-one.user.request.dto';
+import { find_all_user_response_dto } from './dto/find-all.user.response.dto';
 import { delete_user_request_dto } from './dto/delete.user.request.dto';
 
 @Controller('user')
@@ -17,13 +17,13 @@ export class UserController {
 
   // 유저 조회 (전체)
   @Get('all')
-  async findAll(): Promise<findAll_user_response_dto[]> {
+  async findAll() {
     return this.userService.findAll();
   }
 
   // 유저 상세 조회 (유저 id)
-  @Get('findbyID')
-  async findOne(@Body() body: findone_user_request_dto ) {
+  @Get('id')
+  async findOne(@Body() body: find_one_user_request_dto ) {
     return this.userService.findOne(body);
   }
 
