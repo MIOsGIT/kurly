@@ -22,11 +22,15 @@ export class AuthGuard implements CanActivate {
             request.headers['id'] = payload.id.toString();
             return true;
         } catch (e) {
-            if(e.name === 'Invalid Signature') {
-                throw new UnauthorizedException(e.name)
+            switch (e.name) {
+                case 'TokenExpiredError':
+                    throw new UnauthorizedException('토큰이 만료되었습니다.');
+                case 'JsonWebTokenError':
+                    throw new UnauthorizedException('유효하지 않은 토큰입니다.');
+                default:
+                    console.error(e);
+                    throw new UnauthorizedException('인증 처리 중 오류가 발생했습니다.');
             }
-            console.log(e);
-            return false;
         }
     }
 }
