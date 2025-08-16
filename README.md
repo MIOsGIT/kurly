@@ -40,7 +40,7 @@ DB  |  MariaDB<br>
 인증  |  JWT, Passport<br>
 ORM  |  TypeORM<br>
 </p>
-<p align="center">
+<p>
 📂 프로젝트 구조<br>
 </p>
 <p>
