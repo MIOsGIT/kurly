@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { find_all_product_response_dto } from './dto/find-all.product.response.dto';
 import { User } from 'src/user/entities/user.entity';
 import { delete_product_request_dto } from './dto/delete.product.request.dto';
+import { JwtService } from '@nestjs/jwt';
+import { find_one_product_request_dto } from './dto/find-one.product.request.dto';
 
 @Injectable()
 export class ProductService {
@@ -42,8 +44,15 @@ export class ProductService {
   }
 
   // 상품 상세 조회 (상품 number)
-  async findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(body: find_one_product_request_dto) {
+    const product = await this.productRepository.findOne({
+      where: { number: body.number },
+      relations: ['product'],
+    });
+    if (!product) {
+      throw new NotFoundException('해당 유저를 찾을 수 없습니다.');
+    }
+    return product.toFindOneResponse();
   }
 
   // 상품 삭제

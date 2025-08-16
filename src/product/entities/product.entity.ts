@@ -1,6 +1,7 @@
 import { User } from "src/user/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { create_product_request_dto } from "../dto/create.product.request.dto";
+import { find_one_product_response_dto } from "../dto/find-one.product.response.dto";
 
 @Entity()
 export class Product {
@@ -34,5 +35,15 @@ export class Product {
         this.des = body.des;
         this.stock = body.stock;
         this.price = body.price;
+    }
+    toFindOneResponse(): find_one_product_response_dto {
+        return {
+            number: this.number,
+            name: this.name,
+            des: this.des,
+            stock: this.stock,
+            price: this.price,
+            isActive: this.isActive,
+        };
     }
 }

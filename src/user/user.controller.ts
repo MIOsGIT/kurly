@@ -4,6 +4,7 @@ import { create_user_request_dto } from './dto/create.user.request.dto';
 import { find_one_user_request_dto } from './dto/find-one.user.request.dto';
 import { find_all_user_response_dto } from './dto/find-all.user.response.dto';
 import { delete_user_request_dto } from './dto/delete.user.request.dto';
+import { login_user_request_dto } from './dto/login.user.request.dto';
 
 @Controller('user')
 export class UserController {
@@ -32,4 +33,11 @@ export class UserController {
   async remove(@Body() body: delete_user_request_dto) {
     return this.userService.remove(body);
   }
+
+  // 유저 로그인
+  @Get('login')
+  async login(@Body() body: login_user_request_dto): Promise<any> {
+      const result = await this.userService.login(body);
+      return result;
+    }
 }

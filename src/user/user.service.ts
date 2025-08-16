@@ -7,12 +7,16 @@ import { find_one_user_request_dto } from './dto/find-one.user.request.dto';
 import { delete_user_request_dto } from './dto/delete.user.request.dto';
 import { find_all_user_response_dto } from './dto/find-all.user.response.dto';
 import { find_one_user_response_dto } from './dto/find-one.user.response.dto';
+import { JwtService } from '@nestjs/jwt';
+import { login_user_request_dto } from './dto/login.user.request.dto';
+import { Payload } from 'src/security/payload';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+    private jwtservice: JwtService,
   ){}
 
   // 유저 생성
@@ -52,8 +56,24 @@ export class UserService {
       where: { id: body.id } 
     });
     if (!user) {
-      throw new NotFoundException(`ID가 ${body}인 유저를 찾을 수 없습니다.`);
+      throw new NotFoundException(`ID가 ${body.id}인 유저를 찾을 수 없습니다.`);
     }
     await this.userRepository.delete(body);
+  }
+
+  //유저 로그인
+  async login(body: login_user_request_dto) {
+    const user = await this.userRepository
+    .createQueryBuilder('u')
+    .where('u.id = :id', { id: body.id })
+    .andWhere('u.pw = :pw', { pw: body.pw })
+    .getOne();
+
+    if (!user) throw new NotFoundException('회원 정보가 일치하지 않습니다!'); 
+    const payload = new Payload(user.id);
+    return this.jwtservice.sign(payload.Plain(), {
+        secret: 'SECRET',
+        expiresIn: '1h'
+    });
   }
 }

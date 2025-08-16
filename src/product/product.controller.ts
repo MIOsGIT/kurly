@@ -1,13 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Headers } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { create_product_request_dto } from './dto/create.product.request.dto';
 import { delete_product_request_dto } from './dto/delete.product.request.dto';
+import { find_one_product_request_dto } from './dto/find-one.product.request.dto';
+import { AuthGuard } from 'src/security/auth.guard';
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   // 상품 생성
   @Post()
+  @UseGuards(AuthGuard)
   create(@Body() body: create_product_request_dto, @Headers('id') id: string) {
     return this.productService.create(body, id);
   }
@@ -20,13 +23,14 @@ export class ProductController {
 
   // 상품 상세 조회 (상품 number)
   @Get('number')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+  findOne(@Body() body: find_one_product_request_dto) {
+    return this.productService.findOne(body);
   }
 
   // 상품 삭제
-  @Delete(':id')
+  @Delete()
+  @UseGuards(AuthGuard)
   async remove(@Body() body: delete_product_request_dto, @Headers('id') id: string) {
-      return this.productService.remove(body, id);
-    }
+    return this.productService.remove(body, id);
+  }
 }
