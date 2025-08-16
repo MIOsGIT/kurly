@@ -51,9 +51,9 @@ export class UserService {
   }
 
   // 유저 삭제
-  async remove(body: delete_user_request_dto): Promise<void> {
+  async remove(body: delete_user_request_dto, id: string): Promise<void> {
     const user = await this.userRepository.findOne({ 
-      where: { id: body.id } 
+      where: { id: id } 
     });
     if (!user) {
       throw new NotFoundException(`ID가 ${body.id}인 유저를 찾을 수 없습니다.`);
