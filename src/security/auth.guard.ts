@@ -20,7 +20,6 @@ export class AuthGuard implements CanActivate {
                 secret: 'SECRET',
             });
             request.headers['id'] = payload.id.toString();
-
             return true;
         } catch (e) {
             if(e.name === 'Invalid Signature') {
