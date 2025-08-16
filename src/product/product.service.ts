@@ -1,10 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { create_product_request_dto } from './dto/create.product.request.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { find_all_product_response_dto } from './dto/find-all.product.response.dto';
 import { User } from 'src/user/entities/user.entity';
+import { delete_product_request_dto } from './dto/delete.product.request.dto';
 
 @Injectable()
 export class ProductService {
@@ -46,7 +47,27 @@ export class ProductService {
   }
 
   // 상품 삭제
-  async remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(body: delete_product_request_dto, id: string): Promise<void>  {
+    const user_ok : User | null = await this.userRepository.findOne({
+      where: { id : id }
+    });
+    if (!user_ok) {
+      throw new BadRequestException('회원 정보가 일치하지 않습니다.');
+    }
+    const product = await this.productRepository.findOne({
+      where: { number: body.number },
+      relations: ['user']
+    });
+
+    if (!user_ok.isSeller) {
+      throw new BadRequestException('상품 삭제는 판매자 회원만 가능합니다.');
+    }
+    if (!product) {
+      throw new NotFoundException('상품이 존재하지 않습니다.');
+    }
+    if (product.user.id !== user_ok?.id) {
+      throw new BadRequestException('본인의 상품만 삭제할 수 있습니다.');
+    }
+    await this.productRepository.delete(body.number);
   }
 }

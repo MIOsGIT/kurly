@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Headers } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { create_product_request_dto } from './dto/create.product.request.dto';
+import { delete_product_request_dto } from './dto/delete.product.request.dto';
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   // 상품 생성
   @Post()
-  create(@Body() body: create_product_request_dto, @Headers() id: string) {
+  create(@Body() body: create_product_request_dto, @Headers('id') id: string) {
     return this.productService.create(body, id);
   }
 
@@ -25,7 +26,7 @@ export class ProductController {
 
   // 상품 삭제
   @Delete(':id')
-  async remove(@Body() body: delete_user_request_dto) {
-      return this.productService.remove(body);
+  async remove(@Body() body: delete_product_request_dto, @Headers('id') id: string) {
+      return this.productService.remove(body, id);
     }
 }
