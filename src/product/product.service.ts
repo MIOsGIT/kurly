@@ -47,10 +47,10 @@ export class ProductService {
   async findOne(body: find_one_product_request_dto) {
     const product = await this.productRepository.findOne({
       where: { number: body.number },
-      relations: ['product'],
+      relations: ['user'],
     });
     if (!product) {
-      throw new NotFoundException('해당 유저를 찾을 수 없습니다.');
+      throw new NotFoundException('해당 상품을 찾을 수 없습니다.');
     }
     return product.toFindOneResponse();
   }
