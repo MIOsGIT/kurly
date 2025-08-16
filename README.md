@@ -17,18 +17,18 @@
 <h2 align="center">✨ 기능</h2>
 
 <p align="center">
-### 👤 유저
-- 회원가입 (`POST /user`)
-- 로그인 (`GET /user/login`) → JWT 발급
-- 전체 유저 조회 (`GET /user/all`)
-- 특정 유저 조회 (`GET /user/id`)
-- 회원 탈퇴 (`DELETE /user`) (JWT 인증 필요)
-
-### 📦 상품
-- 상품 등록 (`POST /product`) (JWT 인증 필요)
-- 전체 상품 조회 (`GET /product/all`)
-- 특정 상품 조회 (`GET /product/number`)
-- 상품 삭제 (`DELETE /product`) (JWT 인증 필요)
+👤 유저<br>
+- 회원가입 (`POST /user`)<br>
+- 로그인 (`GET /user/login`) → JWT 발급<br>
+- 전체 유저 조회 (`GET /user/all`)<br>
+- 특정 유저 조회 (`GET /user/id`)<br>
+- 회원 탈퇴 (`DELETE /user`) (JWT 인증 필요)<br>
+<br>
+📦 상품<br>
+- 상품 등록 (`POST /product`) (JWT 인증 필요)<br>
+- 전체 상품 조회 (`GET /product/all`)<br>
+- 특정 상품 조회 (`GET /product/number`)<br>
+- 상품 삭제 (`DELETE /product`) (JWT 인증 필요)<br>
 </p>
 
 <h2 align="center">🛠 사용 기술</h2>
@@ -38,26 +38,26 @@
 언어  |  TypeScript<br>
 DB  |  MariaDB<br>
 인증  |  JWT, Passport<br>
-ORM  |  TypeORM
+ORM  |  TypeORM<br>
 </p>
 <p align="center">
-📂 프로젝트 구조
+📂 프로젝트 구조<br>
 </p>
 <p>
-src
- ┣ 📂 user
- ┃ ┣ 📂 dto
- ┃ ┣ 📜 user.controller.ts
- ┃ ┣ 📜 user.service.ts
- ┣ 📂 product
- ┃ ┣ 📂 dto
- ┃ ┣ 📜 product.controller.ts
- ┃ ┣ 📜 product.service.ts
- ┣ 📂 security
- ┃ ┣ 📜 auth.guard.ts
- ┃ ┣ 📜 jwt.strategy.ts
- ┣ 📜 main.ts
- ┣ 📜 app.module.ts
+src<br>
+ ┣ 📂 user<br>
+ ┃ ┣ 📂 dto<br>
+ ┃ ┣ 📜 user.controller.ts<br>
+ ┃ ┣ 📜 user.service.ts<br>
+ ┣ 📂 product<br>
+ ┃ ┣ 📂 dto<br>
+ ┃ ┣ 📜 product.controller.ts<br>
+ ┃ ┣ 📜 product.service.ts<br>
+ ┣ 📂 security<br>
+ ┃ ┣ 📜 auth.guard.ts<br>
+ ┃ ┣ 📜 jwt.strategy.ts<br>
+ ┣ 📜 main.ts<br>
+ ┣ 📜 app.module.ts<br>
  </p>
 
 ---
