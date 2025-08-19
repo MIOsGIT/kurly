@@ -1,5 +1,5 @@
 <!-- 대문 -->
-<h1 align="center">🌸 Nest.js Study Project - COUPANG API 🌸</h1>
+<h1 align="center">🌸 Nest.js Study Project - KURLY API 🌸</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/NestJS-FF69B4?style=for-the-badge&logo=nestjs&logoColor=white" />
